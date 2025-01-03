@@ -2,15 +2,24 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16 # Anda tidak membutuhkan node, bisa dihilangkan juga
-    commands:
-      - echo "Installing dependencies..." # bisa dihilangkan
+      nodejs: 16 # Opsional, jika perlu
   build:
     commands:
-      - echo "Building application..." # Ini hanya contoh, tidak ada yang perlu di-build.
+      - echo "Building"  # Opsional, jika perlu
   post_build:
     commands:
-      - echo "Build completed" # Ini hanya contoh, tidak ada yang perlu di-build.
+      - echo "Build Complete"
+      - echo "Deploying to EC2"
+      - aws s3 cp ./index.html s3://tubes-devsecops-kalkulator-app/
+      - aws s3 cp ./background.jpg s3://tubes-devsecops-kalkulator-app/
+      - aws s3 cp ./readme.md s3://tubes-devsecops-kalkulator-app/
+      - aws ec2 describe-instances --filters "Name=tag:Name,Values=Tubes DevSecOps" | jq -r '.Reservations[].Instances[].PublicIpAddress' > ec2_public_ip.txt
+      - PUBLIC_IP=$(cat ec2_public_ip.txt)
+      - ssh -i tubes.pem  ec2-user@$PUBLIC_IP "sudo rm -rf /var/www/html/*"
+      - scp -i tubes.pem ./index.html ec2-user@$PUBLIC_IP:/var/www/html/index.html
+      - scp -i tubes.pem ./background.jpg ec2-user@$PUBLIC_IP:/var/www/html/background.jpg
+      - scp -i tubes.pem ./readme.md ec2-user@$PUBLIC_IP:/var/www/html/readme.md
+      - echo "Deployment complete"
 artifacts:
   files:
     - '**/*'
