@@ -18,10 +18,10 @@ phases:
       - aws s3 cp ./readme.md s3://tubes-devsecops-kalkulator-app/
       - aws ec2 describe-instances --filters "Name=tag:Name,Values=TUBESdevsecops" | jq -r '.Reservations[].Instances[].PublicIpAddress' > ec2_public_ip.txt
       - PUBLIC_IP=$(cat ec2_public_ip.txt)
-      - ssh -i ./config/TUBES (2).pem  ec2-user@$PUBLIC_IP "sudo rm -rf /var/www/html/*"
-      - scp -i ./config/TUBES (2).pem ./index.html ec2-user@$PUBLIC_IP:/var/www/html/index.html
-      - scp -i ./config/TUBES (2).pem ./background.jpg ec2-user@$PUBLIC_IP:/var/www/html/background.jpg
-      - scp -i ./config/TUBES (2).pem ./readme.md ec2-user@$PUBLIC_IP:/var/www/html/readme.md
+      - ssh -i ./TUBES (2).pem  ec2-user@$PUBLIC_IP "sudo rm -rf /var/www/html/*"
+      - scp -i ./TUBES (2).pem ./index.html ec2-user@$PUBLIC_IP:/var/www/html/index.html
+      - scp -i ./TUBES (2).pem ./background.jpg ec2-user@$PUBLIC_IP:/var/www/html/background.jpg
+      - scp -i ./TUBES (2).pem ./readme.md ec2-user@$PUBLIC_IP:/var/www/html/readme.md
       - echo "Deployment complete"
 artifacts:
   files:
