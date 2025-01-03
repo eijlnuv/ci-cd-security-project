@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16 # Anda tidak membutuhkan node, bisa dihilangkan juga
+    commands:
+      - echo "Installing dependencies..." # bisa dihilangkan
+  build:
+    commands:
+      - echo "Building application..." # Ini hanya contoh, tidak ada yang perlu di-build.
+  post_build:
+    commands:
+      - echo "Build completed" # Ini hanya contoh, tidak ada yang perlu di-build.
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
