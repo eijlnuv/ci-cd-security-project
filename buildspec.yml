@@ -2,10 +2,10 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16 # Opsional, jika perlu
+      nodejs: 16
   build:
     commands:
-      - echo "Building"  # Opsional, jika perlu
+      - echo "Building" 
   post_build:
     commands:
       - echo "Build Complete"
